@@ -13,12 +13,12 @@ $level_1_dirs = Listfolders($startDir);
 //print_r($level_1_dirs); //exit();
 
 foreach ($level_1_dirs as $d){
-	$id = dir_exist($dir_exist_prepare, $d);
+	$id = dir_exist($dir_exist_prepared, $d);
 	
 	if ($id===false){
 		new_dir( $dbh, $d, 0, 2);
 	}else{
-		//echo findParent_id( $dir_exist_prepare, $dir);
+		//echo findParent_id( $dir_exist_prepared, $dir);
 		echo "id>$id dir exists\n";
 	}
 }
@@ -26,10 +26,10 @@ foreach ($level_1_dirs as $d){
 //level 2
   
 
-function findParent_id( $dir_exist_prepare, $dir){
+function findParent_id( $dir_exist_prepared, $dir){
 	$pi=pathinfo($dir);
 	$pa_path = $pi["dirname"] . "/";
-	return dir_exist( $dir_exist_prepare , $fullpath);
+	return dir_exist( $dir_exist_prepared , $fullpath);
 }
  
 
@@ -90,20 +90,20 @@ function Listfiles($dir){
 
 /*
 
-CREATE TABLE `dirs` (
-  `id` int(11) NOT NULL,
-  `fullpath` text COLLATE utf8_unicode_ci,
-  `basename` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_count` int(11) NOT NULL DEFAULT '0',
-  `dir_count` int(11) NOT NULL DEFAULT '0',
-  `dir_md5` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `file_md5` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `type_id` tinyint(4) NOT NULL DEFAULT '0',
-  `file_changed` int(11) NOT NULL DEFAULT '0',
-  `dir_changed` tinyint(4) NOT NULL DEFAULT '0',
-  `date_checked` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `priority` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-*/
+`id  
+`fullpath  
+`parent_id  dirname of fullpath  dir_exist() get's the id
+`basename  basename of  of fullpath
+`file_count  by actual scan
+`dir_count  by actual scan vs select items with parent id my id
+`dir_md5  last scan of dirs and md5
+`file_md5 last scan of files and md5 
+`type_id  except id 7(deleted) , others manual assign
+`file_changed  raised if file_md5 not matched
+`dir_changed  raised if dir_md5 not matched
+`date_checked  auto timestamp OR after a check with + or - result!
+`priority  some dir be checked more often, e.g. dc_photo, Ricoh
+`level deduced from items in fullpath
 
+*/ 
 ?>

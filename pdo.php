@@ -21,18 +21,19 @@ try {
 //prepare sql
 
 	$sql = "select id from `dirs` where `fullpath` = ? limit 1";
-	$dir_exist_prepare=$dbh->prepare($sql);
+	$dir_exist_prepared=$dbh->prepare($sql);
 
 	
 
 
 //end prepare sql
 
-function dir_exist( $dir_exist_prepare , $fullpath){
+function dir_exist( $dir_exist_prepared , $fullpath){
+	//if exist return the id in table, else false
 	try {
-			if ($dir_exist_prepare->execute( array($fullpath))) {
+			if ($dir_exist_prepared->execute( array($fullpath))) {
 				//simple fetch. get all returns
-				$got_rows = ( $dir_exist_prepare->fetchAll()); 
+				$got_rows = ( $dir_exist_prepared->fetchAll()); 
 				if ($got_rows == array()){
 					return false;
 				}else{
