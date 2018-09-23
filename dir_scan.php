@@ -13,20 +13,25 @@ $level_1_dirs = Listfolders($startDir);
 //print_r($level_1_dirs); //exit();
 
 foreach ($level_1_dirs as $d){
-	if (dir_exist($dir_exist_prepare, $d)===false){
+	$id = dir_exist($dir_exist_prepare, $d);
+	
+	if ($id===false){
 		new_dir( $dbh, $d, 0, 2);
 	}else{
-		echo "dir exists\n";
+		//echo findParent_id( $dir_exist_prepare, $dir);
+		echo "id>$id dir exists\n";
 	}
 }
- 
-/*
 
-function new_dir($dir, $parent_id){
-	return;
+//level 2
+  
+
+function findParent_id( $dir_exist_prepare, $dir){
+	$pi=pathinfo($dir);
+	$pa_path = $pi["dirname"] . "/";
+	return dir_exist( $dir_exist_prepare , $fullpath);
 }
-
-*/
+ 
 
 function add_Zero( $str ) {
     while (strlen($str) < 3 ){
@@ -74,6 +79,11 @@ function Listfolders($dir){
 //e.g. Listfiles($sdir, ".JPG", 'is_file');
 //leave $ext empty for folders
 function Listfiles($dir){
+	//check if $dir ends with /
+	if ( substr( $dir, -1) != "/" ){
+		$dir .= "/";
+	}
+	
 	return array_filter(glob($dir."*"), 'is_file');
 }
  
