@@ -8,7 +8,9 @@ http://wiki.hashphp.org/PDO_Tutorial_for_MySQL_Developers
 // note the charset=utf8 param for unicode
 $dsn = 'mysql:dbname=nas;host=localhost;charset=utf8';
 $user = 'michael';
-$password = 'db765655LOK;';
+
+include_once("pdo_pword.php");
+
 
 
 try {
